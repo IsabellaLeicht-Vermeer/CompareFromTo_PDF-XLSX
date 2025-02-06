@@ -50,7 +50,6 @@ def ParsePDFTables(tables):
     outList = []
     for i in tables:
         for j in i:
-            print(j)
             if j[1] == "- -":
                 continue
             splitVal = j[1].split("-")
@@ -123,7 +122,6 @@ def GetTables(docDirectory = None):
             bottomRightY = (tables[docNum][i].bbox[1])
             rect = pymupdf.Rect(topLeftX, topLeftY, bottomRightX, bottomRightY)
             componentName = (doc[docNum].get_textbox(rect))    
-            print(tables[docNum][i].extract().append(componentName))
             if ((len(tables[docNum][i].extract()[0]) in range (3, 5)) and (len(tables[docNum][i].extract()[0][1]) != 1)):
                 if (tables[docNum][i].extract()[0][0] == 'POS'):
                     totalTables.append(tables[docNum][i].extract()[1:])
