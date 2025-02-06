@@ -10,9 +10,8 @@ def CompareFromTo(excelTable, pdfTable):
     outExcelFinal = []
     outPDF = []
 
-    # Checks from excel table against pdf
-    # without worrying about missing gauge
-    # from cable assemblies
+    # checks excel against pdf without
+    # cable assy gauge correction
     for i in excelTable:
         if i in pdfTable:
             continue
@@ -20,50 +19,42 @@ def CompareFromTo(excelTable, pdfTable):
 
     # Checks pdf against the excel sheet
     for i in pdfTableMod:
+
         # assuming the excel table has gauge
         if i in excelTable:
             continue
+
         # then checks for cable assy making no gauge
         i['wireGauge'] = ''
         if i in excelTable:
             continue    
-        
         outPDF.append(i)
 
+    # checks excel against pdf with
+    # cable assy gauge correction
     for i in pdfTableMod:
         i['wireGauge'] = ''
-    #print("")
-    #print(pdfTableMod)
-
-    # Checks from excel table against pdf
-    # while considering gauge missing
-    # from cable assemblies
     for i in outExcelInit:
         if i not in pdfTableMod:
             outExcelFinal.append(i)
-
-        
     return outExcelFinal, outPDF            
 
 
 def ParsePDFTables(tables):
+    colorCorrector = {"OR":"OG", "PU":"VT", "TN":"BG", "YL":"YE"}
+
     outList = []
     for i in tables:
         for j in i:
+            
+            # skip undesirable values and correct color acronyms
             if j[1] == "- -":
                 continue
             splitVal = j[1].split("-")
             if len(splitVal) < 3:
                 continue
-            # gross, don't want to think anymore rn to fix this
-            if splitVal[1] == "OR":
-                splitVal[1] = "OG"
-            elif splitVal[1] == "PU":
-                splitVal[1] = "VT"
-            elif splitVal[1] == "TN":
-                splitVal[1] = "BG"
-            elif splitVal[1] == "YL":
-                splitVal[1] = "YE"
+            if splitVal[1] in colorCorrector:
+                splitVal[1] = colorCorrector[splitVal[1]]
             
             outList.append({"signal":splitVal[0], "designation":i[len(i)-1], "terminal":j[0], "wireColor":splitVal[1], "wireGauge":splitVal[2]})
     return outList
@@ -94,6 +85,8 @@ def GetTables(docDirectory = None):
     doc = pymupdf.open(docDirectory, filetype="pdf")
     #doc = pymupdf.open("C:\\Users\\il36825\\Downloads\\163772367_old.pdf", filetype="pdf")
 
+
+    # arbitrary params, this is just the best i found
     findTableParams = {
         "horizontal_strategy":"lines_strict",
         "vertical_strategy":"lines_strict",
@@ -131,15 +124,3 @@ def GetTables(docDirectory = None):
 
 
     return totalTables
-     
-#def ExtractPDFTables(tables, componentNames):
-#    totalTables = []
-#    for docNum in range(0, len(tables)):
-#        for i in range(0, len(tables[docNum])):
-#            if ((len(tables[docNum][i].extract()[0]) in range (3, 5)) and (len(tables[docNum][i].extract()[0][1]) != 1)):
-#                if (tables[docNum][i].extract()[0][0] == 'POS'):
-#                    totalTables.append(tables[docNum][i].extract()[1:])
-#                else:
-#                    totalTables.append(tables[docNum][i].extract())
-#                totalTables[len(totalTables)-1].append(componentNames[docNum][i].partition("\n")[0])
-#    return totalTables
