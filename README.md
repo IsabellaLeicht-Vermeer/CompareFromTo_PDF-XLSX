@@ -24,6 +24,5 @@ Enter full directory path of file FromTo docs (including filename but excluding 
 Script will output any entries that it doesn't see on the other document.
 
 &nbsp;&nbsp;&nbsp;&nbsp;If a PDF has connector P123 with wire 456-CR-14 on terminal 1 but doesn't see that on the excel sheet, it will output that info
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;same vice-versa
-
-
