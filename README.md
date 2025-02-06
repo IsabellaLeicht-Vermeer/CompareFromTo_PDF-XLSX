@@ -13,17 +13,17 @@ First time users:
 
 &nbsp;&nbsp;&nbsp;&nbsp;install python3
 
-    run command "pip -r requirements.txt" from project directory
+&nbsp;&nbsp;&nbsp;&nbsp;run command "pip -r requirements.txt" from project directory
   
 run command "python .\main.py" from project directory
 
 Enter full directory path of file FromTo docs (including filename but excluding file extension)
 
-    Example: C:\Users\il36825\Documents\storage\ECNs\284719\163772367
+&nbsp;&nbsp;&nbsp;&nbsp;Example: C:\Users\il36825\Documents\storage\ECNs\284719\163772367
 
 Script will output any entries that it doesn't see on the other document.
 
-    If a PDF has connector P123 with wire 456-CR-14 on terminal 1 but doesn't see that on the excel sheet, it will output that info
-        same vice-versa
+&nbsp;&nbsp;&nbsp;&nbsp;If a PDF has connector P123 with wire 456-CR-14 on terminal 1 but doesn't see that on the excel sheet, it will output that info
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;same vice-versa
 
 
