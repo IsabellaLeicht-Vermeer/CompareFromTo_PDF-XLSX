@@ -51,6 +51,8 @@ def ParsePDFTables(tables):
     for i in tables:
         for j in i:
             print(j)
+            if j[1] == "- -":
+                continue
             splitVal = j[1].split("-")
             if len(splitVal) < 3:
                 continue
