@@ -50,7 +50,8 @@ def ParsePDFTables(tables):
     outList = []
     for i in tables:
         for j in i:
-            splitVal = j[1].split("-", 2)
+            print(j)
+            splitVal = j[1].split("-")
             if len(splitVal) < 3:
                 continue
             # gross, don't want to think anymore rn to fix this
@@ -109,26 +110,36 @@ def GetTables(docDirectory = None):
 
     tableStart = 0
     componentNames = []
-    for docNum in range(0, len(doc)):
-        tables = pymupdf.find_tables(doc[docNum], **findTableParams)
-        for i in range(tableStart, len(tables.tables)):
-            topLeftX = (tables.tables[i].bbox[0])
-            topLeftY = (tables.tables[i].bbox[1]-22)
-            bottomRightX = tables.tables[i].bbox[2]
-            bottomRightY = tables.tables[i].bbox[1]
-            rect = pymupdf.Rect(topLeftX, topLeftY, bottomRightX, bottomRightY)
-            componentNames.append((doc[docNum].get_textbox(rect)))
-    
-
-    return tables, componentNames
-       
-def ExtractPDFTables(tables, componentNames):
+    tables = []
     totalTables = []
-    for i in range(0, len(tables.tables)):
-        if ((len(tables[i].extract()[0]) in range (3, 5)) and (len(tables[i].extract()[0][1]) != 1)):
-            if (tables[i].extract()[0][0] == 'POS'):
-                totalTables.append(tables[i].extract()[1:])
-            else:
-                totalTables.append(tables[i].extract())
-            totalTables[len(totalTables)-1].append(componentNames[i].partition("\n")[0])
+    for docNum in range(0, len(doc)):
+        tables.append(pymupdf.find_tables(doc[docNum], **findTableParams).tables)
+        for i in range(0, len(tables[docNum])):
+            topLeftX = (tables[docNum][i].bbox[0])
+            topLeftY = (tables[docNum][i].bbox[1]-22)
+            bottomRightX = (tables[docNum][i].bbox[2])
+            bottomRightY = (tables[docNum][i].bbox[1])
+            rect = pymupdf.Rect(topLeftX, topLeftY, bottomRightX, bottomRightY)
+            componentName = (doc[docNum].get_textbox(rect))    
+            print(tables[docNum][i].extract().append(componentName))
+            if ((len(tables[docNum][i].extract()[0]) in range (3, 5)) and (len(tables[docNum][i].extract()[0][1]) != 1)):
+                if (tables[docNum][i].extract()[0][0] == 'POS'):
+                    totalTables.append(tables[docNum][i].extract()[1:])
+                else:
+                    totalTables.append(tables[docNum][i].extract())
+                totalTables[len(totalTables)-1].append(componentName.partition("\n")[0])
+
+
     return totalTables
+     
+#def ExtractPDFTables(tables, componentNames):
+#    totalTables = []
+#    for docNum in range(0, len(tables)):
+#        for i in range(0, len(tables[docNum])):
+#            if ((len(tables[docNum][i].extract()[0]) in range (3, 5)) and (len(tables[docNum][i].extract()[0][1]) != 1)):
+#                if (tables[docNum][i].extract()[0][0] == 'POS'):
+#                    totalTables.append(tables[docNum][i].extract()[1:])
+#                else:
+#                    totalTables.append(tables[docNum][i].extract())
+#                totalTables[len(totalTables)-1].append(componentNames[docNum][i].partition("\n")[0])
+#    return totalTables
