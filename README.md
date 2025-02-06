@@ -1,11 +1,11 @@
-#TODO
+# TODO\
 Implement detection and merge of split-tables on PDF\ 
 Test on more documents and note any issues\
 general cleanup stuff\
-figure out a better way to deal with cable assies that don't contain wire gauge\
+figure out a better way to deal with cable assies that do:n't contain wire gauge\
 
 
-#How to Use
+# How to Use\
 First time users:\
     install python3\
     run command "pip -r requirements.txt" from project directory\
