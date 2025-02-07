@@ -13,7 +13,7 @@ First time users:
 
 &nbsp;&nbsp;&nbsp;&nbsp;install python3
 
-&nbsp;&nbsp;&nbsp;&nbsp;run command "pip -r requirements.txt" from project directory
+&nbsp;&nbsp;&nbsp;&nbsp;run command "pip install -r requirements.txt" from project directory
   
 run command "python .\main.py" from project directory
 
